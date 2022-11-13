@@ -1,13 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { useGetCategoriesQuery } from "../store/kitchenApi/kitchen.api";
 
-export interface ICategoryDropdownProps {}
+export interface IDropdownProps {
+    data: object;
+}
 
-export default function CategoryDropdown(props: ICategoryDropdownProps) {
-    const { data, isLoading, isError } = useGetCategoriesQuery();
+export default function Dropdown({ data }: IDropdownProps) {
     const [dropDown, setDropDown] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
+
+    const dropdownName = Object.keys(data)[0];
+    const dropdownValues = Object.values(data)[0];
 
     useEffect(() => {
         document.addEventListener("click", handleClickOutsideDropdown, true);
@@ -40,7 +43,7 @@ export default function CategoryDropdown(props: ICategoryDropdownProps) {
                             setDropDown(!dropDown);
                         }}
                     >
-                        Категорий
+                        {dropdownName}
                         <svg
                             className="-mr-1 ml-2 h-5 w-5"
                             xmlns="http://www.w3.org/2000/svg"
@@ -65,27 +68,19 @@ export default function CategoryDropdown(props: ICategoryDropdownProps) {
                         tabIndex={-1}
                     >
                         <div className="py-1" role="none">
-                            {isError && <p>Error</p>}
-                            {isLoading && <p>Loading...</p>}
-                            {data?.map((item: any) => (
-                                <Link
-                                    to={`/${item.slug}`}
-                                    key={item.id}
-                                    className="text-gray-700 px-4 py-2 text-md flex justify-between"
-                                    tabIndex={-1}
-                                    id="menu-item-0"
-                                >
-                                    <img
-                                        src={item.category_icon_url}
-                                        alt={item.category_name}
-                                        width="50px"
-                                        className="inline-block"
-                                    />{" "}
-                                    <p className="text-right">
-                                        {item.category_name}
-                                    </p>
-                                </Link>
-                            ))}
+                            {Object.entries(dropdownValues).map(
+                                ([key, value]: [string, any], index) => (
+                                    <Link
+                                        to={value.url}
+                                        key={index}
+                                        className="text-gray-700 px-4 py-2 text-md flex justify-between"
+                                        tabIndex={-1}
+                                        id="menu-item-0"
+                                    >
+                                        <p className="text-right">{value.name}</p>
+                                    </Link>
+                                )
+                            )}
                         </div>
                     </div>
                 )}

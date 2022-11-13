@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ISubCategory } from "../models/models";
 import { useGetSubCategoriesQuery } from "../store/kitchenApi/kitchen.api";
@@ -11,8 +11,12 @@ export default function CategoryPage(props: ICategoryPageProps) {
         `${category}`
     );
 
-    console.log(data);
-    
+
+
+    useEffect(() => {
+        document.title = `${data?.category_name}` || "Sub Category";
+    }, [data]);
+
     return (
         <div>
             {isError && <p>Error</p>}

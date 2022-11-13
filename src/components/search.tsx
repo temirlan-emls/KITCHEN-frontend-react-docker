@@ -57,12 +57,12 @@ export default function Search(props: ISearchProps) {
                 <div className="flex">
                     <input
                         type="text"
-                        placeholder="  Пицца печь"
+                        placeholder="Пицца печь"
                         name="query"
                         onChange={(e) => {
                             handleChange(e.target.value);
                         }}
-                        className="border border-slate-800 rounded-sm outline-none"
+                        className="border border-slate-800 rounded-sm outline-none px-2"
                         autoComplete="off"
                     />
                     <button
