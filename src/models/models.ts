@@ -45,6 +45,7 @@ export interface IProduct {
     get_thumbnail?: any;
     sub_category_slug: string;
     category_slug: string;
+    quantity: number;
 }
 
 export interface SubCategoryResponse {

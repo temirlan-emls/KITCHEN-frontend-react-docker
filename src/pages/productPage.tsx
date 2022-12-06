@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useGetProductQuery } from "../store/kitchenApi/kitchen.api";
 import { useActions } from "../hooks/useActions";
 import { useTypedSelector } from "../hooks/useTypedSelector";
-import { useGetProductQuery } from "../store/kitchenApi/kitchen.api";
 
 export interface IProductPageProps {}
 
@@ -14,15 +14,22 @@ export default function ProductPage(props: IProductPageProps) {
         product: `${product}`,
     });
 
+    const [productCountInCart, setProductCountInCart] = useState(0);
+    const [isProductInCart, setIsProductInCart] = useState(false);
+
+    const { addProduct } = useActions();
+    const { cart } = useTypedSelector((state) => state.cart);
     useEffect(() => {
         document.title = `${data?.name}` || "Product";
-    }, [data]);
+        setIsProductInCart(cart.some((p) => p.id === data?.id));
 
-    const { addItem } = useActions();
-    const { cart } = useTypedSelector((state) => state);
-    const isExistsInCart = cart.some((p) => p.id === data?.id);
-    const productCountInCart = cart.filter((p)=> p === data).length
-
+        if (isProductInCart) {
+            setProductCountInCart(
+                cart.filter((p) => p.id === data!.id)[0].quantity
+            );
+        }
+    }, [cart, isProductInCart, data]);
+    
     return (
         <div>
             {isError && <p>Error</p>}
@@ -37,20 +44,19 @@ export default function ProductPage(props: IProductPageProps) {
             )}
             {data && <p>{data.name}</p>}
             {data && (
-                <p>
-                    {new Intl.NumberFormat("kz-KZ", {
-                        style: "currency",
-                        currency: "KZT",
-                        maximumSignificantDigits: 1,
-                    }).format(data.price)}
-                </p>
+                <div>
+                    <p>
+                        {new Intl.NumberFormat("kz-KZ", {
+                            style: "currency",
+                            currency: "KZT",
+                            maximumSignificantDigits: 1,
+                        }).format(data.price)}
+                    </p>
+                    <p>{}</p>
+                </div>
             )}
-            <button onClick={() => addItem(data!)}>add to cart</button>
-            {isExistsInCart ? (
-                <p>in cart {productCountInCart}</p>
-            ) : (
-                <p>no in cart</p>
-            )}
+            <button onClick={() => addProduct(data!)} className="border bg-slate-400">add to cart</button>
+            {isProductInCart ? `in cart ${productCountInCart}` : "no in cart"}
         </div>
     );
 }

@@ -48,6 +48,29 @@ export const kitchenApi = createApi({
                 },
             }),
         }),
+        genXLSX: build.mutation<any, any>({
+            query: (body) => ({
+                url: "docs-gen/xlsx-generator/",
+                method: "POST",
+                body,
+                responseHandler: async (response) => {
+                    response.blob().then((blob) => {
+                        const current = new Date();
+                        const date = `${current.getDate()}.${
+                            current.getMonth() + 1
+                        }.${current.getFullYear()}_${current.getHours()}.${current.getMinutes()}`;
+
+                        let url = window.URL.createObjectURL(blob);
+                        let a = document.createElement("a");
+                        a.href = url;
+                        a.download = `KP_${date}.xlsx`;
+                        a.click();
+                    });
+                },
+                cache: "no-cache",
+                overrideExisting: false,
+            }),
+        }),
     }),
 });
 
@@ -56,5 +79,6 @@ export const {
     useGetSubCategoriesQuery,
     useGetProductsQuery,
     useGetProductQuery,
-    useSearchProductMutation
+    useSearchProductMutation,
+    useGenXLSXMutation,
 } = kitchenApi;

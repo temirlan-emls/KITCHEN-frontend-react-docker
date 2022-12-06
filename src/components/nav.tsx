@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Search from "./search";
 import CategoryDropdown from "./categoryDropdown";
@@ -8,7 +8,13 @@ import { useTypedSelector } from "../hooks/useTypedSelector";
 export interface INavProps {}
 
 export default function Nav(props: INavProps) {
-    const { cart } = useTypedSelector((state) => state);
+    const [inCartCount, setInCartCount] = useState(0);
+    const { cart } = useTypedSelector((state) => state.cart);
+    useEffect(() => {
+        let count = 0;
+        cart.forEach((item) => (count += item.quantity));
+        setInCartCount(count);
+    }, [cart]);
 
     const servicesDropdown = {
         Услуги: {
@@ -48,7 +54,7 @@ export default function Nav(props: INavProps) {
                 </div>
                 <Search />
                 <div>
-                    <Link to={`/cart`}>{cart.length}</Link>
+                    <Link to={`/cart`}>{inCartCount}</Link>
                 </div>
             </div>
 
