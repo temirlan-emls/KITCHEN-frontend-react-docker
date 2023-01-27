@@ -4,6 +4,7 @@ import Search from "./search";
 import CategoryDropdown from "./categoryDropdown";
 import Dropdown from "./dropdown";
 import { useTypedSelector } from "../hooks/useTypedSelector";
+import { BsCartPlusFill } from "react-icons/bs";
 
 export interface INavProps {}
 
@@ -52,9 +53,17 @@ export default function Nav(props: INavProps) {
                         <Dropdown data={servicesDropdown} />
                     </ul>
                 </div>
-                <Search />
-                <div>
-                    <Link to={`/cart`}>{inCartCount}</Link>
+
+                <div className="flex flex-col items-end justify-center h-full">
+                    <Link to={`/cart`}>
+                        <div className="relative mb-4 border rounded-md flex justify-center items-center hover:bg-amber-200">
+                            <p className="my-2 mr-2 ml-4 py-1 px-3 rounded-full bg-amber-200 font-bold">
+                                {inCartCount}
+                            </p>
+                            <BsCartPlusFill className="h-6 w-6 mr-4" />
+                        </div>
+                    </Link>
+                    <Search />
                 </div>
             </div>
 

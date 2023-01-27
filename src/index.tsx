@@ -6,19 +6,23 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { createRoot } from "react-dom/client";
 import { store } from "./store/store";
+import { SnackbarProvider } from "notistack";
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
 
 root.render(
-    <Provider store={store}>
+    <SnackbarProvider maxSnack={5} autoHideDuration={5000}>
         {" "}
-        <BrowserRouter>
-            {/* <React.StrictMode> */}
-            <App />
-            {/* </React.StrictMode> */}
-        </BrowserRouter>
-    </Provider>
+        <Provider store={store}>
+            {" "}
+            <BrowserRouter>
+                {/* <React.StrictMode> */}
+                <App />
+                {/* </React.StrictMode> */}
+            </BrowserRouter>
+        </Provider>
+    </SnackbarProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

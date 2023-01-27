@@ -43,7 +43,7 @@ export default function Search(props: ISearchProps) {
 
     return (
         <div
-            className="relative flex flex-row items-center h-full"
+            className="relative flex flex-row items-center"
             ref={dropdownRef}
         >
             <form
@@ -53,7 +53,6 @@ export default function Search(props: ISearchProps) {
                 }}
                 className="flex flex-col items-end"
             >
-                <label htmlFor="query">Поиск</label>
                 <div className="flex">
                     <input
                         type="text"
@@ -78,7 +77,7 @@ export default function Search(props: ISearchProps) {
                 </div>
 
                 {dropDown && data && (
-                    <ul className="z-50 absolute top-[120px] left-0 right-0 max-h-64 px-4 py-2 shadow-dm border border-red-200 rounded-md bg-white opacity-90 overflow-auto">
+                    <ul className="z-50 absolute top-[60px] left-0 right-0 max-h-64 px-4 py-2 shadow-dm border border-red-200 rounded-md bg-white opacity-90 overflow-auto">
                         {data.map((item: IProduct) => (
                             <li className="w-full" key={item.id}>
                                 {" "}

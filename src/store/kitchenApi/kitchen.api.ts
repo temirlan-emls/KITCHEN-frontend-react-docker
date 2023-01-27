@@ -9,7 +9,7 @@ import {
 export const kitchenApi = createApi({
     reducerPath: "kitchen/api",
     baseQuery: fetchBaseQuery({
-        baseUrl: "http://127.0.0.1:8000/",
+        baseUrl: "http://localhost:8000/",
     }),
     endpoints: (build) => ({
         getCategories: build.query<CategoriesResponse[], void>({
@@ -71,6 +71,29 @@ export const kitchenApi = createApi({
                 overrideExisting: false,
             }),
         }),
+        genPDF: build.mutation<any, any>({
+            query: (body) => ({
+                url: "docs-gen/pdf-generator/",
+                method: "POST",
+                body,
+                responseHandler: async (response) => {
+                    response.blob().then((blob) => {
+                        const current = new Date();
+                        const date = `${current.getDate()}.${
+                            current.getMonth() + 1
+                        }.${current.getFullYear()}_${current.getHours()}.${current.getMinutes()}`;
+
+                        let url = window.URL.createObjectURL(blob);
+                        let a = document.createElement("a");
+                        a.href = url;
+                        a.download = `KP_${date}.pdf`;
+                        a.click();
+                    });
+                },
+                cache: "no-cache",
+                overrideExisting: false,
+            }),
+        }),
     }),
 });
 
@@ -81,4 +104,5 @@ export const {
     useGetProductQuery,
     useSearchProductMutation,
     useGenXLSXMutation,
+    useGenPDFMutation
 } = kitchenApi;
