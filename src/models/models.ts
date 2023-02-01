@@ -57,3 +57,10 @@ export interface SubCategoryResponse {
     get_absolute_url: string;
     products: IProduct[];
 }
+
+export interface ISlideImages {
+    id: number;
+    slideName: string;
+    slideSlug: string;
+    slide_image_url: string;
+}

@@ -35,7 +35,7 @@ export const kitchenApi = createApi({
             { category: string; subcategory: string; product: string }
         >({
             query: ({ category, subcategory, product }) => ({
-                url: `api/product/${category}/${subcategory}/${product}/`,
+                url: `api/products/${category}/${subcategory}/${product}/`,
             }),
         }),
         searchProduct: build.mutation<IProduct[], string>({
@@ -46,6 +46,11 @@ export const kitchenApi = createApi({
                 headers: {
                     "Content-type": "application/json; charset=UTF-8",
                 },
+            }),
+        }),
+        getRandomProducts: build.query<IProduct[], void>({
+            query: () => ({
+                url: "api/products/random-products/",
             }),
         }),
         genXLSX: build.mutation<any, any>({
@@ -82,7 +87,6 @@ export const kitchenApi = createApi({
                         const date = `${current.getDate()}.${
                             current.getMonth() + 1
                         }.${current.getFullYear()}_${current.getHours()}.${current.getMinutes()}`;
-
                         let url = window.URL.createObjectURL(blob);
                         let a = document.createElement("a");
                         a.href = url;
@@ -94,6 +98,11 @@ export const kitchenApi = createApi({
                 overrideExisting: false,
             }),
         }),
+        getSlideImages: build.query<any, void>({
+            query: () => ({
+                url: "other-app/slideImg/",
+            }),
+        }),
     }),
 });
 
@@ -102,7 +111,9 @@ export const {
     useGetSubCategoriesQuery,
     useGetProductsQuery,
     useGetProductQuery,
+    useGetRandomProductsQuery,
     useSearchProductMutation,
+    useGetSlideImagesQuery,
     useGenXLSXMutation,
-    useGenPDFMutation
+    useGenPDFMutation,
 } = kitchenApi;

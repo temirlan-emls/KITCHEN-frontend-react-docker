@@ -13,19 +13,19 @@ export default function CartControl({ item }: ICartControlProps) {
     const { removeProduct, incrementQuantity, decrementQuantity } =
         useActions();
 
-    return ( 
+    return (
         <div className="flex flex-row w-full" key={item.id}>
             <div className="w-2/5 flex flex-col justify-around items-center">
                 <button
                     onClick={() => incrementQuantity(item)}
-                    className="w-full flex justify-center items-center p-1.5 border rounded-tl-md hover:bg-amber-200"
+                    className="w-full flex justify-center items-center p-1 border rounded-tl-md hover:bg-amber-200"
                 >
                     <GoPlus />
                 </button>
 
                 <button
                     onClick={() => decrementQuantity(item)}
-                    className="w-full flex justify-center items-center p-1.5 border rounded-bl-md hover:bg-amber-200"
+                    className="w-full flex justify-center items-center p-1 border rounded-bl-md hover:bg-amber-200"
                 >
                     <HiMinus />
                 </button>

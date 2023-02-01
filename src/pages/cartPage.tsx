@@ -6,10 +6,15 @@ import SetPageName from "../hooks/setPageName.hook";
 import CartProductItem from "../components/cartProductItem";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { useNavigate } from "react-router-dom";
+import { useSnackbar } from "notistack";
 
 export interface ICartPageProps {}
 
 export default function CartPage(props: ICartPageProps) {
+    const navigate = useNavigate();
+    const { enqueueSnackbar } = useSnackbar();
+
     const MySwal = withReactContent(Swal);
 
     // Getting cart
@@ -21,6 +26,13 @@ export default function CartPage(props: ICartPageProps) {
     // Creating query data (depends on cart)
     const [query, setQuery] = useState("");
     useEffect(() => {
+        if (cart.length === 0) {
+            navigate(-1);
+            enqueueSnackbar("Корзина пуста", {
+                autoHideDuration: 3000,
+                variant: "error",
+            });
+        }
         let query = "";
         cart.forEach((item) => {
             for (let i = 0; i < item.quantity; i++) {
@@ -34,14 +46,10 @@ export default function CartPage(props: ICartPageProps) {
     }, [cart]);
 
     // Handler for genXLSX
-    const [genXLSX, { data, isError, isLoading }] = useGenXLSXMutation();
-    console.log(!isLoading);
+    const [genXLSX, { isError, isLoading }] = useGenXLSXMutation();
 
     const genXLSXHandler = async (e: any) => {
         e.preventDefault();
-        // if (query) {
-        //     await genXLSX({ XLSXdata: query });
-        // }
 
         MySwal.fire({
             title: <p>Выгрузка в Xlsx</p>,
@@ -84,7 +92,7 @@ export default function CartPage(props: ICartPageProps) {
                     Сделать XLSX
                 </button>
             </div>
-            <div className="w-full flex h-12 border-slate-400 bg-slate-100 font-semibold">
+            <div className="w-full flex h-12 sm:text-sm lg:text-md border-slate-400 bg-slate-100 font-semibold">
                 <div className="w-1/12 h-full flex justify-center items-center border border-solid border-inherit border-slate-400 ">
                     Кол
                 </div>

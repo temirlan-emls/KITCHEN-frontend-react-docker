@@ -4,14 +4,12 @@ export interface IToCurrentFormProps {
 
 export default function ToCurrentForm({ price }: IToCurrentFormProps) {
     return (
-        <span className="text-center">
+        <span className="text-center w-full">
             {new Intl.NumberFormat("kz-KZ", {
                 style: "currency",
                 currency: "KZT",
                 maximumSignificantDigits: 1,
-            })
-                .format(price)
-                .replace("KZT", " KZT")}
+            }).format(price)}
         </span>
     );
 }

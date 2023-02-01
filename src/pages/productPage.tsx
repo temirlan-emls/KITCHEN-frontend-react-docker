@@ -9,7 +9,6 @@ import ToCurrentForm from "../components/toCurrentForm";
 import { BsCartPlusFill } from "react-icons/bs";
 import { useSnackbar } from "notistack";
 
-
 export interface IProductPageProps {}
 
 export default function ProductPage(props: IProductPageProps) {
@@ -42,12 +41,14 @@ export default function ProductPage(props: IProductPageProps) {
             {isError && <p>Error</p>}
             {isLoading && <p>Loading...</p>}
             {data && (
-                <div className="container mt-14 mb-72 flex justify-center items-center">
-                    <div className="w-7/12">
+                <div className="container mt-14 mb-48 flex sm:flex-col lg:flex-row justify-center items-center">
+                    <div className="w-7/12 sm:w-full">
                         <div className="mb-10">
                             <p className="text-4xl font-bold">{data.name}</p>
                             {data.code && (
-                                <p className="font-light">{data.code}</p>
+                                <p className="font-light">
+                                    {data.code.replace("_", " ").toUpperCase()}
+                                </p>
                             )}
                         </div>
 
@@ -57,7 +58,7 @@ export default function ProductPage(props: IProductPageProps) {
                             className="w-6/12 inline-block"
                         />
                     </div>
-                    <div className="w-5/12 flex flex-col">
+                    <div className="w-5/12 sm:w-full flex flex-col">
                         <div className="mb-10">
                             <p className="font-semibold text-4xl">
                                 <ToCurrentForm price={data.price} />
