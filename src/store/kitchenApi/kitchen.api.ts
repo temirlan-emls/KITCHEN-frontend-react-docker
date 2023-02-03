@@ -9,7 +9,7 @@ import {
 export const kitchenApi = createApi({
     reducerPath: "kitchen/api",
     baseQuery: fetchBaseQuery({
-        baseUrl: "http://localhost:8000/",
+        baseUrl: "http://localhost:81/",
     }),
     endpoints: (build) => ({
         getCategories: build.query<CategoriesResponse[], void>({
